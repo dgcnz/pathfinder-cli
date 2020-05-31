@@ -29,10 +29,32 @@ maze read_maze(string filename);
 */
 void print_maze(maze m);
 
-/*! \fn void read_options(vector<string> argv)
+/*! \fn options read_options(vector<string> argv)
     \brief Takes command line arguments following the input file and transforms
-   it into an options struct. \param argv The vector of command line arguments
+   it into an options struct.
+   \param argv The vector of command line arguments
 */
 options read_options(vector<string> argv);
+
+/*! \fn void print_path(path p)
+    \brief Takes path (vector of points) and prints it to stdout.
+   it into an options struct.
+   \param p vector of points representing path.
+*/
+void print_path(path p);
+
+/*! \fn maze paint_maze(const maze &m, path p)
+    \brief Embeds a path to a maze.
+    \param m Base maze
+    \param p Path to be embedded to maze
+*/
+maze paint_maze(const maze &m, path p);
+
+/*! \fn void save_maze(const maze &m, string filename)
+    \brief Embeds a path to a maze.
+    \param m Base maze
+    \param filename File where maze will be stored.
+*/
+void save_maze(const maze &m, string filename);
 
 #endif

@@ -11,7 +11,8 @@ enum cell_type
     WALL,
     EMPTY,
     START,
-    EXIT
+    EXIT,
+    PATH_POINT
 };
 enum algorithm_type
 {
