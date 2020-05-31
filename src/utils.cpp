@@ -72,6 +72,10 @@ maze read_maze(string filename)
             try
             {
                 imaze.m[row][col] = char_to_cell_type(c);
+                if (imaze.m[row][col] == START)
+                    imaze.start = make_pair(row, col);
+                else if (imaze.m[row][col] == EXIT)
+                    imaze.target = make_pair(row, col);
             }
             catch (const invalid_argument &e)
             {

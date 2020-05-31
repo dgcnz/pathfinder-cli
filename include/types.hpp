@@ -2,6 +2,7 @@
 #define TYPES_HPP
 
 #include <string>
+#include <utility>
 #include <vector>
 using namespace std;
 
@@ -23,10 +24,13 @@ enum algorithm_type
 
 using maze_type = vector<vector<cell_type>>;
 using path      = vector<pair<int, int>>;
+using point     = pair<int, int>;
 
 struct maze
 {
     int       rows, cols;
+    point     start;  // initial row and column
+    point     target; // target row and column
     maze_type m;
 };
 
