@@ -2,6 +2,7 @@
 #include <exception>
 #include <fstream>
 #include <iostream>
+#include <map>
 
 char cell_type_to_char(cell_type cell)
 {
@@ -104,4 +105,26 @@ void print_maze(maze m)
         cout << endl;
     }
     cout << endl;
+}
+
+map<string, algorithm_type> get_algo = {
+    {"DEPTH_FIRST_SEARCH", DEPTH_FIRST_SEARCH},
+    {"BREADTH_FIRST_SEARCH", BREADTH_FIRST_SEARCH},
+    {"BEST_FIRST_SEARCH", BEST_FIRST_SEARCH},
+    {"A_STAR_SEARCH", A_STAR_SEARCH},
+    {"HILL_CLIMBING", HILL_CLIMBING}};
+
+options read_options(vector<string> argv)
+{
+    // TODO: It's too ad-hoc
+    if (get_algo.find(argv[0]) != get_algo.end())
+        return {get_algo[argv[0]]};
+    else
+    {
+        string s;
+        for (auto const &[k, v] : get_algo)
+            s += k + '\n';
+
+        throw invalid_argument("Invalid algorithm. Options are:\n" + s);
+    }
 }

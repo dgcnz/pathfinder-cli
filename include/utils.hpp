@@ -29,4 +29,10 @@ maze read_maze(string filename);
 */
 void print_maze(maze m);
 
+/*! \fn void read_options(vector<string> argv)
+    \brief Takes command line arguments following the input file and transforms
+   it into an options struct. \param argv The vector of command line arguments
+*/
+options read_options(vector<string> argv);
+
 #endif
