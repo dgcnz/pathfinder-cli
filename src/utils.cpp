@@ -21,6 +21,9 @@ char cell_type_to_char(cell_type cell)
     case EXIT:
         c = '$';
         break;
+    case PATH_POINT:
+        c = 'o';
+        break;
     default:
         throw invalid_argument("Unrecognized cell type.");
     }
@@ -43,6 +46,9 @@ cell_type char_to_cell_type(char c)
         break;
     case '$':
         cell = EXIT;
+        break;
+    case 'o':
+        cell = PATH_POINT;
         break;
     default:
         throw invalid_argument("Unrecognized character.");
@@ -131,4 +137,50 @@ options read_options(vector<string> argv)
 
         throw invalid_argument("Invalid algorithm. Options are:\n" + s);
     }
+}
+
+void print_path(path p)
+{
+    for (auto [r, c] : p)
+        cout << "(" << r << ", " << c << ") ";
+    cout << endl;
+}
+
+maze paint_maze(const maze &m, path p)
+{
+    maze ans = m;
+    for (auto [r, c] : p)
+        ans.m[r][c] = PATH_POINT;
+
+    return ans;
+}
+
+void save_maze(const maze &m, string filename)
+{
+    int      rows, cols;
+    ofstream maze_file;
+
+    maze_file.open(filename);
+    rows = m.rows;
+    cols = m.cols;
+
+    for (int row = 0; row < rows; ++row)
+    {
+        for (int col = 0; col < cols; ++col)
+        {
+            try
+            {
+                maze_file << cell_type_to_char(m.m[row][col]);
+            }
+            catch (const invalid_argument &e)
+            {
+                cout << "Invalid cell_type on maze." << endl;
+            }
+        }
+        maze_file << endl;
+    }
+
+    maze_file << endl;
+
+    maze_file.close();
 }
