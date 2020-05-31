@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     {
         cout << "A maze txt file must be input as an argument to the program"
              << endl;
-        cout << "Usage: ./pathfinder -i {filename} -a" << endl;
+        cout << "Usage: ./pathfinder {filename} {algorithm}" << endl;
         return 1;
     }
     else if (argc >= NECESSARY_ARGUMENTS)
@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
     }
     else
     {
-        cout << "Usage: ./pathfinder {filename}" << endl;
+        cout << "Usage: ./pathfinder {filename} {algorithm}" << endl;
         return 1;
     }
 

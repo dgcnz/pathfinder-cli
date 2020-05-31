@@ -7,8 +7,8 @@
 make all 
 
 # This will produce an executable called pathfinder
-# Usage: pathfinder <filename>
-./pathfinder maze_input
+# Usage: pathfinder <filename> <algorithm> 
+./pathfinder res/maze_input DEPTH_FIRST_SEARCH
 ```
 
 ## Conventions
