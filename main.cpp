@@ -1,8 +1,12 @@
+#include "solver.hpp"
 #include "types.hpp"
 #include "utils.hpp"
+#include <algorithm>
 #include <iostream>
 
 using namespace std;
+
+const int NECESSARY_ARGUMENTS = 3;
 
 int main(int argc, char *argv[])
 {
@@ -10,12 +14,22 @@ int main(int argc, char *argv[])
     {
         cout << "A maze txt file must be input as an argument to the program"
              << endl;
-        cout << "Usage: ./pathfinder {filename}" << endl;
+        cout << "Usage: ./pathfinder -i {filename} -a" << endl;
         return 1;
     }
-    else if (argc == 2)
+    else if (argc >= NECESSARY_ARGUMENTS)
     {
-        maze m = read_maze(string(argv[1]));
+        maze           m = read_maze(string(argv[1]));
+        vector<string> raw_opts(argc - 2);
+        transform(argv + 2, argv + argc, raw_opts.begin(), [](char s[]) {
+            return string(s);
+        });
+
+        options o = read_options(raw_opts);
+        path    p = solve(m, o);
+        for (auto point : p)
+            cout << point << " ";
+        cout << endl;
         print_maze(m);
     }
     else

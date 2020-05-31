@@ -14,6 +14,7 @@ make all
 ## Conventions
 
 - Header files are stored at `include/` and source files at `src/`.
+- Comment your code when necessary
 - Variables are named with snake case.
 - A config file for clang format is stored at the root of the folder `.clang-format`.
 - If possible use c++17 features and follow the Standard Guidelines.
@@ -27,6 +28,7 @@ make all
     - [ ] Best-first search
     - [ ] A* search
     - [ ] Hill climbing
+
 
 ## Collaborators
 
