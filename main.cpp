@@ -27,10 +27,10 @@ int main(int argc, char *argv[])
 
         options o = read_options(raw_opts);
         path    p = solve(m, o);
-        for (auto [r, c] : p)
-            cout << "(" << r << ", " << c << ") ";
-        cout << endl;
-        print_maze(m);
+        print_path(p);
+        maze mp = paint_maze(m, p);
+        save_maze(mp, "res/solved.txt");
+        // print_maze(m);
     }
     else
     {
