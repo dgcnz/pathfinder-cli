@@ -1,5 +1,5 @@
 NAME = pathfinder
-FILES = utils
+FILES = utils depth_first_search breadth_first_search best_first_search a_star_search hill_climbing
 
 SRC = $(addprefix src/,$(addsuffix .cpp, $(FILES)))
 
