@@ -23,8 +23,8 @@ enum algorithm_type
 };
 
 using maze_type = vector<vector<cell_type>>;
-using path      = vector<pair<int, int>>;
 using point     = pair<int, int>;
+using path      = vector<point>;
 
 struct maze
 {
@@ -32,6 +32,20 @@ struct maze
     point     start;  // initial row and column
     point     target; // target row and column
     maze_type m;
+    bool      is_wall(point p) const
+    {
+        auto [r, c] = p;
+        return m[r][c] == WALL;
+    }
+    bool is_within_bounds(point p) const
+    {
+        auto [r, c] = p;
+        return (0 <= r and r < rows and 0 <= cols and c < cols);
+    }
+    bool is_valid(point p) const
+    {
+        return is_within_bounds(p) and not is_wall(p);
+    }
 };
 
 struct options
