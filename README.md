@@ -33,4 +33,5 @@ make all
 ## Collaborators
 
 - Diego Cánez
+- Jhordan Vargas 11733353
 - // pongan sus nombres 
