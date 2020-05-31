@@ -27,8 +27,8 @@ int main(int argc, char *argv[])
 
         options o = read_options(raw_opts);
         path    p = solve(m, o);
-        for (auto point : p)
-            cout << point << " ";
+        for (auto [r, c] : p)
+            cout << "(" << r << ", " << c << ") ";
         cout << endl;
         print_maze(m);
     }
