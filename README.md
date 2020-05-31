@@ -19,11 +19,17 @@ make all
 - A config file for clang format is stored at the root of the folder `.clang-format`.
 - If possible use c++17 features and follow the Standard Guidelines.
 
+## Contribute
+
+1. Read Todo List
+2. Read important APIs: `include/utils.hpp` and `include/types.hpp` and use them when possible to enforce modular code.
+3. Check implementations of other algorithms.
+
 ## Todo List:
 
-- [x] File reader for maze
+- [x] File reader for maze @dgcnz
 - Algorithms:
-    - [ ] Depth-first search
+    - [x] Depth-first search @dgcnz
     - [ ] Breadth-first search
     - [ ] Best-first search
     - [ ] A* search
