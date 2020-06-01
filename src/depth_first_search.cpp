@@ -7,20 +7,6 @@
 
 using vvb = vector<vector<bool>>;
 
-vector<pair<int, int>> directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
-
-vector<point> get_next_points(point p, maze &m)
-{
-    vector<point> ans;
-    for (auto [dr, dc] : directions)
-    {
-        point q = make_pair(p.first + dr, p.second + dc);
-        if (m.is_valid(q))
-            ans.push_back(q);
-    }
-    return ans;
-}
-
 bool dfs_util(point p, maze &m, vvb &vis, path &ans)
 {
     if (vis[p.first][p.second])
@@ -32,7 +18,7 @@ bool dfs_util(point p, maze &m, vvb &vis, path &ans)
 
     vis[p.first][p.second] = true;
 
-    for (point q : get_next_points(p, m))
+    for (point q : neighbors(p, m))
         if (dfs_util(q, m, vis, ans))
             return true;
 
