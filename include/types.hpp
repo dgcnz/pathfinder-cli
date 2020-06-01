@@ -23,6 +23,12 @@ enum algorithm_type
     HILL_CLIMBING
 };
 
+enum distance_type
+{
+    EUCLIDEAN,
+    MANHATTAN
+};
+
 using maze_type = vector<vector<cell_type>>;
 using point     = pair<int, int>;
 using path      = vector<point>;
@@ -52,6 +58,7 @@ struct maze
 struct options
 {
     algorithm_type algorithm;
+    distance_type  distance_metric;
 };
 
 using algorithm = function<path(maze, options)>;
