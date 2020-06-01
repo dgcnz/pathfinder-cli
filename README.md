@@ -32,7 +32,7 @@ make all
     - [x] Depth-first search @dgcnz
     - [ ] Breadth-first search
     - [ ] Best-first search
-    - [ ] A* search
+    - [x] A* search
     - [ ] Hill climbing
 
 

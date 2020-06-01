@@ -57,4 +57,25 @@ maze paint_maze(const maze &m, path p);
 */
 void save_maze(const maze &m, string filename);
 
+/*! \fn int euclidean(point p1, point p2)
+    \brief Computes Euclidean distance between 2 points in 2D space.
+    \param p1 Point 1.
+    \param p2 Point 2
+*/
+int euclidean(point p1, point p2);
+
+/*! \fn int manhattan(point p1, point p2)
+    \brief Computes Manhattan distance between 2 points in 2D space.
+    \param p1 Point 1.
+    \param p2 Point 2
+*/
+int manhattan(point p1, point p2);
+
+/*! \fn vector<point> neighbors(point p, maze &m)
+    \brief Returns valid neighbors given point.
+    \param p Point to which find neighbors
+    \param m Maze that contains the context of p
+*/
+vector<point> neighbors(point p, maze &m);
+
 #endif

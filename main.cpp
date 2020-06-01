@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
         print_path(p);
         maze mp = paint_maze(m, p);
         save_maze(mp, "res/solved.txt");
-        // print_maze(m);
+        print_maze(mp);
     }
     else
     {
