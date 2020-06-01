@@ -1,4 +1,6 @@
+#include "utils.hpp"
 #include "types.hpp"
+#include <cmath>
 #include <exception>
 #include <fstream>
 #include <iostream>
@@ -98,6 +100,8 @@ void print_maze(maze m)
 {
     int rows, cols;
     rows = m.rows, cols = m.cols;
+    string highlightc = "\033[0;#32m";
+    string defaultc   = "\033[0m";
 
     for (int row = 0; row < rows; ++row)
     {
@@ -105,7 +109,11 @@ void print_maze(maze m)
         {
             try
             {
-                cout << cell_type_to_char(m.m[row][col]);
+                if (m.m[row][col] == PATH_POINT)
+                    cout << "\033[1;31m" << cell_type_to_char(m.m[row][col])
+                         << "\033[0m";
+                else
+                    cout << cell_type_to_char(m.m[row][col]);
             }
             catch (const invalid_argument &e)
             {
@@ -124,11 +132,19 @@ map<string, algorithm_type> get_algo = {
     {"A_STAR_SEARCH", A_STAR_SEARCH},
     {"HILL_CLIMBING", HILL_CLIMBING}};
 
+map<string, distance_type> get_distance_metric = {{"EUCLIDEAN", EUCLIDEAN},
+                                                  {"MANHATTAN", MANHATTAN}};
+
 options read_options(vector<string> argv)
 {
     // TODO: It's too ad-hoc
     if (get_algo.find(argv[0]) != get_algo.end())
-        return {get_algo[argv[0]]};
+    {
+        if (argv.size() >= 2)
+            return {get_algo[argv[0]], get_distance_metric[argv[1]]};
+        else
+            return {get_algo[argv[0]], EUCLIDEAN};
+    }
     else
     {
         string s;
@@ -183,4 +199,29 @@ void save_maze(const maze &m, string filename)
     maze_file << endl;
 
     maze_file.close();
+}
+
+int euclidean(point p1, point p2)
+{
+    return (int)sqrt((int)pow(p1.first - p2.first, 2) +
+                     (int)pow(p1.second - p2.second, 2));
+}
+
+int manhattan(point p1, point p2)
+{
+    return (int)abs(p1.first - p2.first) + abs(p1.second - p2.second);
+}
+
+vector<pair<int, int>> directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+
+vector<point> neighbors(point p, maze &m)
+{
+    vector<point> ans;
+    for (auto [dr, dc] : directions)
+    {
+        point q = make_pair(p.first + dr, p.second + dc);
+        if (m.is_valid(q))
+            ans.push_back(q);
+    }
+    return ans;
 }
