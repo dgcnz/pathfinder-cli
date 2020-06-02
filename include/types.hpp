@@ -24,7 +24,12 @@ struct maze
     point                     start;  // initial row and column
     point                     target; // target row and column
     vector<vector<cell_type>> m;
-    bool                      is_wall(point p) const
+    maze() {}
+    maze(int rows, int cols, cell_type ct = EMPTY) : rows(rows), cols(cols)
+    {
+        m = vector(rows, vector(cols, ct));
+    }
+    bool is_wall(point p) const
     {
         auto [r, c] = p;
         return m[r][c] == WALL;

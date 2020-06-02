@@ -76,9 +76,7 @@ maze read_maze(string filename)
     maze_file.open(filename);
     maze_file >> rows >> cols;
 
-    imaze.rows = rows;
-    imaze.cols = cols;
-    imaze.m    = vector(rows, vector<cell_type>(cols, EMPTY));
+    imaze = maze(rows, cols, EMPTY);
 
     for (int row = 0; row < rows; ++row)
     {
