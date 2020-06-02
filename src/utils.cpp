@@ -1,10 +1,18 @@
 #include "utils.hpp"
+#include "a_star_search.hpp"
+#include "best_first_search.hpp"
+#include "breadth_first_search.hpp"
+#include "depth_first_search.hpp"
+#include "hill_climbing.hpp"
 #include "types.hpp"
+#include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <exception>
 #include <fstream>
 #include <iostream>
 #include <map>
+#include <random>
 
 char cell_type_to_char(cell_type cell)
 {
@@ -100,7 +108,7 @@ void print_maze(maze m)
 {
     int rows, cols;
     rows = m.rows, cols = m.cols;
-    string highlightc = "\033[0;#32m";
+    string highlightc = "\033[1;31m";
     string defaultc   = "\033[0m";
 
     for (int row = 0; row < rows; ++row)
@@ -110,8 +118,8 @@ void print_maze(maze m)
             try
             {
                 if (m.m[row][col] == PATH_POINT)
-                    cout << "\033[1;31m" << cell_type_to_char(m.m[row][col])
-                         << "\033[0m";
+                    cout << highlightc << cell_type_to_char(m.m[row][col])
+                         << defaultc;
                 else
                     cout << cell_type_to_char(m.m[row][col]);
             }
@@ -125,34 +133,30 @@ void print_maze(maze m)
     cout << endl;
 }
 
-map<string, algorithm_type> get_algo = {
-    {"DEPTH_FIRST_SEARCH", DEPTH_FIRST_SEARCH},
-    {"BREADTH_FIRST_SEARCH", BREADTH_FIRST_SEARCH},
-    {"BEST_FIRST_SEARCH", BEST_FIRST_SEARCH},
-    {"A_STAR_SEARCH", A_STAR_SEARCH},
-    {"HILL_CLIMBING", HILL_CLIMBING}};
-
-map<string, distance_type> get_distance_metric = {{"EUCLIDEAN", EUCLIDEAN},
-                                                  {"MANHATTAN", MANHATTAN}};
-
-options read_options(vector<string> argv)
+double euclidean(point p1, point p2)
 {
-    // TODO: It's too ad-hoc
-    if (get_algo.find(argv[0]) != get_algo.end())
-    {
-        if (argv.size() >= 2)
-            return {get_algo[argv[0]], get_distance_metric[argv[1]]};
-        else
-            return {get_algo[argv[0]], EUCLIDEAN};
-    }
-    else
-    {
-        string s;
-        for (auto const &[k, v] : get_algo)
-            s += k + '\n';
+    return sqrt(pow(p1.first - p2.first, 2) + pow(p1.second - p2.second, 2));
+}
 
-        throw invalid_argument("Invalid algorithm. Options are:\n" + s);
-    }
+double manhattan(point p1, point p2)
+{
+    return abs(p1.first - p2.first) + abs(p1.second - p2.second);
+}
+map<string, algorithm> get_algorithm = {
+    {"depth_first_search", depth_first_search},
+    {"breadth_first_search", breadth_first_search},
+    {"best_first_search", best_first_search},
+    {"a_star_search", a_star_search},
+    {"hill_climbing", hill_climbing}};
+
+map<string, distance_metric> get_distance_metric = {{"euclidean", euclidean},
+                                                    {"manhattan", manhattan}};
+
+pair<algorithm, opt_payload> parse_options(string r_algorithm, string r_dist)
+{
+    algorithm   fx   = get_algorithm[r_algorithm];
+    opt_payload opts = {get_distance_metric[r_dist]};
+    return {fx, opts};
 }
 
 void print_path(path p)
@@ -201,18 +205,7 @@ void save_maze(const maze &m, string filename)
     maze_file.close();
 }
 
-int euclidean(point p1, point p2)
-{
-    return (int)sqrt((int)pow(p1.first - p2.first, 2) +
-                     (int)pow(p1.second - p2.second, 2));
-}
-
-int manhattan(point p1, point p2)
-{
-    return (int)abs(p1.first - p2.first) + abs(p1.second - p2.second);
-}
-
-vector<pair<int, int>> directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+vector<pair<int, int>> directions = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
 
 vector<point> neighbors(point p, maze &m)
 {
@@ -223,5 +216,23 @@ vector<point> neighbors(point p, maze &m)
         if (m.is_valid(q))
             ans.push_back(q);
     }
+
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    shuffle(begin(ans), end(ans), default_random_engine(seed));
+    return ans;
+}
+
+path reconstruct_path(map<point, point> came_from, point current)
+{
+    path ans;
+    ans.push_back(current);
+
+    while (came_from.find(current) != came_from.end())
+    {
+        current = came_from[current];
+        ans.push_back(current);
+    }
+
+    reverse(ans.begin(), ans.end());
     return ans;
 }

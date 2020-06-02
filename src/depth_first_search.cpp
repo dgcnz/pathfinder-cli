@@ -25,7 +25,7 @@ bool dfs_util(point p, maze &m, vvb &vis, path &ans)
     ans.pop_back();
     return false;
 }
-path depth_first_search(maze m, options o)
+path depth_first_search(maze m, opt_payload o)
 {
     (void)(o); // unused parameter trick
     path p;

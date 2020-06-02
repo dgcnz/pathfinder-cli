@@ -10,58 +10,27 @@
 #include <string>
 #include <vector>
 
-path reconstruct_path(map<point, point> came_from, point current)
+path a_star_search(maze m, opt_payload o)
 {
-    path ans;
-    ans.push_back(current);
-
-    while (came_from.find(current) != came_from.end())
-    {
-        current = came_from[current];
-        ans.push_back(current);
-    }
-
-    reverse(ans.begin(), ans.end());
-    return ans;
-}
-
-string ppoint(point p)
-{
-    string ans;
-    ans += "(";
-    ans += to_string(p.first);
-    ans += ", ";
-    ans += to_string(p.second);
-    ans += ")";
-    return ans;
-}
-
-path a_star_search(maze m, options o)
-{
-    const int INF = INT_MAX;
-    // defaults to euclidean
     point target = m.target;
 
-    map<point, int>   _g;
-    map<point, point> came_from;
-    auto dist = (o.distance_metric == MANHATTAN ? manhattan : euclidean);
-    auto g    = [&_g](point p) -> int {
+    map<point, double> _g;
+    map<point, point>  came_from;
+
+    auto dist = o.dist;
+    auto h    = [dist, target](point p) { return dist(p, target); };
+    auto g    = [&_g](point p) {
         if (_g.find(p) == _g.end())
-            return INF;
+            return _INF;
         else
             return _g.at(p);
     };
-    auto h = [dist, target](point p) -> int { return dist(p, target); };
-    auto f = [g, h](point p) -> int {
-        if (g(p) == INF)
-            return INF;
-        else
-            return h(p) + g(p);
-    };
+    auto f            = [g, h](point p) { return h(p) + g(p); };
     auto increasing_f = [f](point p1, point p2) -> bool {
         return f(p1) < f(p2);
     };
     multiset<point, decltype(increasing_f)> frontier(increasing_f);
+
     _g[m.start] = 0;
     frontier.insert(m.start);
 
@@ -75,10 +44,9 @@ path a_star_search(maze m, options o)
 
         for (auto q : neighbors(current, m))
         {
-            int tentative_g =
-                (g(current) == INF ? INF : g(current) + dist(current, q));
+            auto tentative_g = g(current) + dist(current, q);
 
-            if (g(q) == INF or tentative_g < g(q))
+            if (g(q) == _INF or tentative_g < g(q))
             {
                 came_from[q] = current;
                 _g[q]        = tentative_g;

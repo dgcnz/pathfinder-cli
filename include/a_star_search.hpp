@@ -3,6 +3,6 @@
 
 #include "types.hpp"
 
-path a_star_search(maze m, options o);
+path a_star_search(maze m, opt_payload o);
 
 #endif

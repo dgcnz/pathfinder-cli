@@ -3,6 +3,6 @@
 
 #include "types.hpp"
 
-path hill_climbing(maze m, options o);
+path hill_climbing(maze m, opt_payload o);
 
 #endif

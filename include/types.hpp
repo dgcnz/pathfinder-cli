@@ -1,9 +1,11 @@
 #ifndef TYPES_HPP
 #define TYPES_HPP
 
+#include <limits>
 #include <string>
 #include <utility>
 #include <vector>
+
 using namespace std;
 
 enum cell_type
@@ -14,32 +16,15 @@ enum cell_type
     EXIT,
     PATH_POINT
 };
-enum algorithm_type
-{
-    DEPTH_FIRST_SEARCH,
-    BREADTH_FIRST_SEARCH,
-    BEST_FIRST_SEARCH,
-    A_STAR_SEARCH,
-    HILL_CLIMBING
-};
-
-enum distance_type
-{
-    EUCLIDEAN,
-    MANHATTAN
-};
-
-using maze_type = vector<vector<cell_type>>;
-using point     = pair<int, int>;
-using path      = vector<point>;
 
 struct maze
 {
-    int       rows, cols;
-    point     start;  // initial row and column
-    point     target; // target row and column
-    maze_type m;
-    bool      is_wall(point p) const
+    using point = pair<int, int>;
+    int                       rows, cols;
+    point                     start;  // initial row and column
+    point                     target; // target row and column
+    vector<vector<cell_type>> m;
+    bool                      is_wall(point p) const
     {
         auto [r, c] = p;
         return m[r][c] == WALL;
@@ -55,12 +40,17 @@ struct maze
     }
 };
 
-struct options
+struct opt_payload
 {
-    algorithm_type algorithm;
-    distance_type  distance_metric;
+    using point           = pair<int, int>;
+    using distance_metric = function<double(point, point)>;
+    distance_metric dist;
 };
 
-using algorithm = function<path(maze, options)>;
+using point           = pair<int, int>;
+using path            = vector<point>;
+using distance_metric = function<double(point, point)>;
+using algorithm       = function<path(maze, opt_payload)>;
+const double _INF     = std::numeric_limits<double>::infinity();
 
 #endif

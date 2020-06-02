@@ -3,6 +3,6 @@
 
 #include "types.hpp"
 
-path breadth_first_search(maze m, options o);
+path breadth_first_search(maze m, opt_payload o);
 
 #endif

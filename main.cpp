@@ -1,42 +1,51 @@
+#include "cmdparser.hpp"
 #include "solver.hpp"
 #include "types.hpp"
 #include "utils.hpp"
 #include <algorithm>
+#include <exception>
 #include <iostream>
+#include <string>
 
 using namespace std;
 
-const int NECESSARY_ARGUMENTS = 3;
+// algorithm
+// metric_distance
+// input
+// output
+// print
+
+void configure_parser(cli::Parser &p)
+{
+    p.set_required<string>("a", "algorithm", "Pathfinding algorithm.");
+    p.set_required<string>("i", "input", "Input file.");
+    p.set_optional<string>("o", "output", "", "Output file.");
+    p.set_optional<string>("d", "dist", "manhattan", "Distance metric.");
+    p.set_optional<bool>("v", "verbose", false, "Prints output to stdout.");
+}
 
 int main(int argc, char *argv[])
 {
-    if (argc <= 1)
+    if (not numeric_limits<double>::has_infinity)
     {
-        cout << "A maze txt file must be input as an argument to the program"
-             << endl;
-        cout << "Usage: ./pathfinder {filename} {algorithm}" << endl;
-        return 1;
+        throw runtime_error(
+            "Current floating point representation is not suitable "
+            "for this program. IEEE 754 is needed.");
     }
-    else if (argc >= NECESSARY_ARGUMENTS)
-    {
-        maze           m = read_maze(string(argv[1]));
-        vector<string> raw_opts(argc - 2);
-        transform(argv + 2, argv + argc, raw_opts.begin(), [](char s[]) {
-            return string(s);
-        });
+    cli::Parser parser(argc, argv);
+    configure_parser(parser);
+    parser.run_and_exit_if_error();
 
-        options o = read_options(raw_opts);
-        path    p = solve(m, o);
-        print_path(p);
-        maze mp = paint_maze(m, p);
-        save_maze(mp, "res/solved.txt");
+    maze m = read_maze(parser.get<string>("i"));
+    auto [pathfinder, opt] =
+        parse_options(parser.get<string>("a"), parser.get<string>("d"));
+    path p  = pathfinder(m, opt);
+    maze mp = paint_maze(m, p);
+
+    if (not parser.get<string>("o").empty())
+        save_maze(mp, parser.get<string>("o"));
+    if (parser.get<bool>("v"))
         print_maze(mp);
-    }
-    else
-    {
-        cout << "Usage: ./pathfinder {filename} {algorithm}" << endl;
-        return 1;
-    }
 
     return 0;
 }

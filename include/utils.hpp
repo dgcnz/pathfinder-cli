@@ -3,6 +3,7 @@
 
 #include "types.hpp"
 #include "utils.hpp"
+#include <map>
 #include <string>
 
 /*! \fn char cell_type_to_char(cell_type cell)
@@ -29,12 +30,12 @@ maze read_maze(string filename);
 */
 void print_maze(maze m);
 
-/*! \fn options read_options(vector<string> argv)
-    \brief Takes command line arguments following the input file and transforms
-   it into an options struct.
-   \param argv The vector of command line arguments
+/*! \fn pair<algorithm, opt_payload> parse_options(string r_algorithm, string
+   r_dist) \brief Takes parsed command line argument into options object \param
+   r_algorithm The name of the algorithm \param r_dist The name of the distance
+   metric to be used
 */
-options read_options(vector<string> argv);
+pair<algorithm, opt_payload> parse_options(string r_algorithm, string r_dist);
 
 /*! \fn void print_path(path p)
     \brief Takes path (vector of points) and prints it to stdout.
@@ -57,19 +58,19 @@ maze paint_maze(const maze &m, path p);
 */
 void save_maze(const maze &m, string filename);
 
-/*! \fn int euclidean(point p1, point p2)
+/*! \fn double euclidean(point p1, point p2)
     \brief Computes Euclidean distance between 2 points in 2D space.
     \param p1 Point 1.
     \param p2 Point 2
 */
-int euclidean(point p1, point p2);
+double euclidean(point p1, point p2);
 
-/*! \fn int manhattan(point p1, point p2)
+/*! \fn double manhattan(point p1, point p2)
     \brief Computes Manhattan distance between 2 points in 2D space.
     \param p1 Point 1.
     \param p2 Point 2
 */
-int manhattan(point p1, point p2);
+double manhattan(point p1, point p2);
 
 /*! \fn vector<point> neighbors(point p, maze &m)
     \brief Returns valid neighbors given point.
@@ -77,5 +78,7 @@ int manhattan(point p1, point p2);
     \param m Maze that contains the context of p
 */
 vector<point> neighbors(point p, maze &m);
+
+path reconstruct_path(map<point, point> came_from, point current);
 
 #endif

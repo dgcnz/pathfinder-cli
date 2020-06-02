@@ -1,7 +1,7 @@
 #include "best_first_search.hpp"
 #include "types.hpp"
 
-path best_first_search(maze m, options o)
+path best_first_search(maze m, opt_payload o)
 {
     // TODO
     (void)(o); // remove if variable is used

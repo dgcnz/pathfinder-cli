@@ -3,6 +3,6 @@
 
 #include "types.hpp"
 
-path depth_first_search(maze m, options o);
+path depth_first_search(maze m, opt_payload o);
 
 #endif
