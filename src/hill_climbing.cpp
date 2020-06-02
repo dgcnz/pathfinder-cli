@@ -5,27 +5,6 @@
 #include <iostream>
 #include <map>
 
-// algorithm Discrete Space Hill Climbing is
-//     currentNode := startNode
-//     loop do
-//         L := NEIGHBORS(currentNode)
-//         nextEval := −INF
-//         nextNode := NULL
-//         for all x in L do
-//             if EVAL(x) > nextEval then
-//                 nextNode := x
-//                 nextEval := EVAL(x)
-//         if nextEval ≤ EVAL(currentNode) then
-//             // Return current node since no better neighbors exist
-//             return currentNode
-//         currentNode := nextNode
-//
-
-string pp(point p)
-{
-    return "(" + to_string(p.first) + ", " + to_string(p.second) + ")";
-}
-
 path hill_climbing(maze m, opt_payload o)
 {
     point             cur_node = m.start;
@@ -44,8 +23,6 @@ path hill_climbing(maze m, opt_payload o)
 
         for (point x : neighbors(cur_node, m))
         {
-            cout << "TESTING" << pp(x) << ": " << h(x) << " < " << next_eval
-                 << "? " << (h(x) < next_eval) << endl;
             if (h(x) < next_eval)
             {
                 next_node = x;
@@ -53,9 +30,6 @@ path hill_climbing(maze m, opt_payload o)
             }
         }
 
-        cout << "PROGRESS" << pp(next_node) << ": " << h(next_node)
-             << " >= " << pp(cur_node) << ": " << h(cur_node) << "? "
-             << (h(next_node) >= h(cur_node)) << endl;
         if (next_eval >= h(cur_node))
         {
             cout << "STUCK ON LOCAL MAXIMA" << endl;
