@@ -38,6 +38,8 @@ path best_first_search(maze m, opt_payload o)
 
         for (auto q : neighbors(current, m))
         {
+            if (m.is_wall(q))
+                continue;
             if (visited.find(q) == visited.end()) // not visited
             {
                 came_from[q] = current;

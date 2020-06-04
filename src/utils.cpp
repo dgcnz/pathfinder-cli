@@ -211,7 +211,7 @@ vector<point> neighbors(point p, maze &m)
     for (auto [dr, dc] : directions)
     {
         point q = make_pair(p.first + dr, p.second + dc);
-        if (m.is_valid(q))
+        if (m.is_within_bounds(q))
             ans.push_back(q);
     }
 

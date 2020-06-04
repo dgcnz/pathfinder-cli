@@ -19,8 +19,12 @@ bool dfs_util(point p, maze &m, vvb &vis, path &ans)
     vis[p.first][p.second] = true;
 
     for (point q : neighbors(p, m))
+    {
+        if (m.is_wall(q))
+            continue;
         if (dfs_util(q, m, vis, ans))
             return true;
+    }
 
     ans.pop_back();
     return false;

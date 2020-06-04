@@ -27,6 +27,8 @@ path breadth_first_search(maze m, opt_payload o)
 
         for (auto neighbor : neighbors(current, m))
         {
+            if (m.is_wall(neighbor))
+                continue;
             if (visited.find(neighbor) == visited.end()) // not visited
             {
                 came_from[neighbor] = current;

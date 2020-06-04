@@ -24,6 +24,8 @@ path hill_climbing(maze m, opt_payload o)
 
         for (point x : neighbors(cur_node, m))
         {
+            if (m.is_wall(x))
+                continue;
             if (h(x) < next_eval)
             {
                 next_node = x;

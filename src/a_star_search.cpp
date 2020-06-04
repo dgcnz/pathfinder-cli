@@ -44,6 +44,8 @@ path a_star_search(maze m, opt_payload o)
 
         for (auto q : neighbors(current, m))
         {
+            if (m.is_wall(q))
+                continue;
             auto tentative_g = g(current) + dist(current, q);
 
             if (g(q) == _INF or tentative_g < g(q))
