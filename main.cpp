@@ -28,6 +28,7 @@ void configure_parser(cli::Parser &p)
         "Generate maze with {rows}, {cols}, (optional){seed}.");
     p.set_optional<string>("d", "dist", "manhattan", "Distance metric.");
     p.set_optional<bool>("v", "verbose", false, "Prints output to stdout.");
+    p.set_optional<string>("e", "export", "", "Exports input maze to file.");
 }
 
 int main(int argc, char *argv[])
@@ -77,7 +78,9 @@ int main(int argc, char *argv[])
             throw runtime_error(
                 "Unspecified number of arguments for maze generator.");
     }
-    print_maze(m);
+    if (not parser.get<string>("e").empty())
+        save_maze(m, parser.get<string>("e"));
+
     auto [pathfinder, opt] =
         parse_options(parser.get<string>("a"), parser.get<string>("d"));
     path p  = pathfinder(m, opt);
@@ -85,8 +88,12 @@ int main(int argc, char *argv[])
 
     if (not parser.get<string>("o").empty())
         save_maze(mp, parser.get<string>("o"));
+
     if (parser.get<bool>("v"))
+    {
+        print_maze(m);
         print_maze(mp);
+    }
 
     return 0;
 }

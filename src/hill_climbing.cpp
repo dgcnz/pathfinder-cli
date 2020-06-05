@@ -7,7 +7,7 @@
 
 path hill_climbing(maze m, opt_payload o)
 {
-    bool              stuck_local_max = false;
+    bool              stuck_local_min = false;
     point             cur_node        = m.start;
     point             target          = m.target;
     auto              dist            = o.dist;
@@ -34,14 +34,14 @@ path hill_climbing(maze m, opt_payload o)
         }
 
         if (next_eval >= h(cur_node))
-            stuck_local_max = true;
+            stuck_local_min = true;
         else
         {
             came_from[next_node] = cur_node;
             cur_node             = next_node;
         }
-    } while (not stuck_local_max);
+    } while (not stuck_local_min);
 
-    cout << "STUCK ON LOCAL MAXIMA" << endl;
+    cout << "STUCK ON LOCAL MINIMA" << endl;
     return reconstruct_path(came_from, cur_node); // path to local maxima
 }
