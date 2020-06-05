@@ -49,6 +49,12 @@ Available parameters:
   -e    --export
    Exports input maze to file.
    This parameter is optional. The default value is ''.
+
+# Example with input file and print on stdout
+$ ./pathfinder -a a_star_search -d manhattan -i res/maze_input.txt -o res/maze_solved.txt -v
+
+# Example with the maze generator and print on stdout
+$ ./pathfinder -a a_star_search -d manhattan -o res/maze_solved.txt -v -e res/maze_300_300_0 -g 300 300 0
 ```
 
 Note
