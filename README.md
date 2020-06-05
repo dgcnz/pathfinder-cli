@@ -1,6 +1,12 @@
 # SCC0530: T3 - Pathfinder
 
-## 
+## Algorithms implemented
+
+- Depth First Search [`depth_first_search`]
+- Breadth First Search [`breadth_first_search`]
+- Best First Search [`best_first_search`]
+- A* [`a_star_search`]
+- Hill Climbing [`hill_climbing`]
 
 ## Usage
 
