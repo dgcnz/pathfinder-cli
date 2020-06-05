@@ -3,6 +3,7 @@
 
 #include "types.hpp"
 #include "utils.hpp"
+#include <functional>
 #include <map>
 #include <string>
 
@@ -72,13 +73,11 @@ double euclidean(point p1, point p2);
 */
 double manhattan(point p1, point p2);
 
-/*! \fn vector<point> neighbors(point p, maze &m)
-    \brief Returns valid neighbors given point.
-    \param p Point to which find neighbors
-    \param m Maze that contains the context of p
-*/
-vector<point> neighbors(point p, maze &m);
-
 path reconstruct_path(map<point, point> came_from, point current);
+
+string pp(point p);
+
+template <typename T>
+vector<T> filter(const vector<T> &v, function<bool(const T &)> predicate);
 
 #endif

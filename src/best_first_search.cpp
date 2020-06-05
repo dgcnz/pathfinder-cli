@@ -36,7 +36,7 @@ path best_first_search(maze m, opt_payload o)
 
         frontier.erase(frontier.begin());
 
-        for (auto q : neighbors(current, m))
+        for (auto q : m.neighbors(current))
         {
             if (m.is_wall(q))
                 continue;

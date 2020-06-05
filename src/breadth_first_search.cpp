@@ -25,7 +25,7 @@ path breadth_first_search(maze m, opt_payload o)
         if (current == target)
             return reconstruct_path(came_from, current);
 
-        for (auto neighbor : neighbors(current, m))
+        for (auto neighbor : m.neighbors(current))
         {
             if (m.is_wall(neighbor))
                 continue;

@@ -18,7 +18,7 @@ bool dfs_util(point p, maze &m, vvb &vis, path &ans)
 
     vis[p.first][p.second] = true;
 
-    for (point q : neighbors(p, m))
+    for (point q : m.neighbors(p))
     {
         if (m.is_wall(q))
             continue;

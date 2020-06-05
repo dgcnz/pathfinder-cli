@@ -22,7 +22,7 @@ path hill_climbing(maze m, opt_payload o)
         if (cur_node == target)
             return reconstruct_path(came_from, cur_node);
 
-        for (point x : neighbors(cur_node, m))
+        for (point x : m.neighbors(cur_node))
         {
             if (m.is_wall(x))
                 continue;

@@ -10,9 +10,11 @@
 #include <cmath>
 #include <exception>
 #include <fstream>
+#include <functional>
 #include <iostream>
 #include <map>
 #include <random>
+#include <string>
 
 char cell_type_to_char(cell_type cell)
 {
@@ -21,12 +23,15 @@ char cell_type_to_char(cell_type cell)
     {
     case EMPTY:
         c = '*';
+        // c = '.';
         break;
     case WALL:
-        c = '-';
+         c = '-';
+        //c = '#';
         break;
     case START:
-        c = '#';
+         c = '#';
+        //c = 'b';
         break;
     case EXIT:
         c = '$';
@@ -203,23 +208,6 @@ void save_maze(const maze &m, string filename)
     maze_file.close();
 }
 
-vector<pair<int, int>> directions = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
-
-vector<point> neighbors(point p, maze &m)
-{
-    vector<point> ans;
-    for (auto [dr, dc] : directions)
-    {
-        point q = make_pair(p.first + dr, p.second + dc);
-        if (m.is_within_bounds(q))
-            ans.push_back(q);
-    }
-
-    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-    shuffle(begin(ans), end(ans), default_random_engine(seed));
-    return ans;
-}
-
 path reconstruct_path(map<point, point> came_from, point current)
 {
     path ans;
@@ -234,3 +222,19 @@ path reconstruct_path(map<point, point> came_from, point current)
     reverse(ans.begin(), ans.end());
     return ans;
 }
+
+string pp(point p)
+{
+    return "(" + to_string(p.first) + ", " + to_string(p.second) + ")";
+}
+
+template <typename T>
+vector<T> filter(const vector<T> &v, function<bool(const T &)> predicate)
+{
+    vector<T> ans;
+    copy_if(v.begin(), v.end(), back_inserter(ans), predicate);
+    return ans;
+}
+
+template vector<point> filter(const vector<point> &         v,
+                              function<bool(const point &)> predicate);
