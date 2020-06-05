@@ -26,7 +26,7 @@ void configure_parser(cli::Parser &p)
         "generate",
         {},
         "Generate maze with {rows}, {cols}, (optional){seed}.");
-    p.set_optional<string>("d", "dist", "manhattan", "Distance metric.");
+    p.set_optional<string>("d", "dist", "manhattan", "Distance metric. Use manhattan or euclidean.");
     p.set_optional<bool>("v", "verbose", false, "Prints output to stdout.");
     p.set_optional<string>("e", "export", "", "Exports input maze to file.");
 }
