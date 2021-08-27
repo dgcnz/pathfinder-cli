@@ -1,6 +1,9 @@
 #ifndef TYPES_HPP
 #define TYPES_HPP
 
+#include <algorithm>
+#include <chrono>
+#include <functional>
 #include <limits>
 #include <optional>
 #include <random>
@@ -29,9 +32,9 @@ struct maze
 
     vector<pair<int, int>> directions = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
     maze() {}
-    maze(int rows, int cols, cell_type ct = EMPTY) : rows(rows), cols(cols)
+    maze(int rows, int cols, cell_type ct = EMPTY)
+        : rows(rows), cols(cols), m(rows, vector<cell_type>(cols, ct))
     {
-        m = vector(rows, vector(cols, ct));
     }
     bool is_empty(point p) const
     {

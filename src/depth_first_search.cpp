@@ -5,6 +5,7 @@
 #include <utility>
 #include <vector>
 
+using namespace std;
 using vvb = vector<vector<bool>>;
 
 bool dfs_util(point p, maze &m, vvb &vis, path &ans)

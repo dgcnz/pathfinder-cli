@@ -2,7 +2,6 @@
 #define UTILS_HPP
 
 #include "types.hpp"
-#include "utils.hpp"
 #include <functional>
 #include <map>
 #include <string>
