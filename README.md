@@ -1,4 +1,4 @@
-# SCC0530: T3 - Pathfinder
+# Pathfinder
 
 ## Algorithms implemented
 
